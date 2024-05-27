@@ -1,6 +1,7 @@
 // pages/signup.tsx
 "use client";
 import { useState } from "react";
+//@ts-ignore
 import axios from '../../../backendService.js'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
