@@ -25,7 +25,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children, isAdminRoute = fals
     };
 
     checkAuth();
-  }, [navigate, isAdminRoute]);
+  }, [navigate, isAdminRoute]); 
   return <>{children}</>;
 };
 

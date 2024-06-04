@@ -85,20 +85,36 @@ const App: React.FC = () => (
               }
             />
             {/* Admin Routes */}
-            <Route path={RouteNames.ADMIN_DASHBOARD} element={<AuthWrapper isAdminRoute>
-  <AdminDashboard />
-</AuthWrapper>} />
-<Route path={RouteNames.ADMIN_FEEDBACKS} element={<AuthWrapper isAdminRoute>
-  <AdminFeedbacks />
-</AuthWrapper>} />
-<Route path={RouteNames.ADMIN_PRODUCTS} element={<AuthWrapper isAdminRoute>
-  <AdminProducts />
-</AuthWrapper>} />
+            <Route
+              path={RouteNames.ADMIN_DASHBOARD}
+              element={
+                <AuthWrapper isAdminRoute>
+                  <AdminDashboard />
+                </AuthWrapper>
+              }
+            />  
+            <Route
+              path={RouteNames.ADMIN_FEEDBACKS}
+              element={
+                <AuthWrapper isAdminRoute>
+                  <AdminFeedbacks />
+                </AuthWrapper>
+              }
+            />
+            <Route
+              path={RouteNames.ADMIN_PRODUCTS}
+              element={
+                <AuthWrapper isAdminRoute>
+                  <AdminProducts />
+                </AuthWrapper>
+              }
+            />
           </Route>
           {/* Routes without Layout */}
           <Route path={RouteNames.SIGNUP} element={<Signup />} />
           <Route path={RouteNames.LOGIN} element={<LoginPage />} />
           <Route path={RouteNames.RESET_PASSWORD} element={<ResetPassword />} />
+
         </Routes>
       </BrowserRouter>
     </StyledApp>

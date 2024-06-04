@@ -1,13 +1,7 @@
 "use client";
-import IconEdit from "../icons/icon-edit";
-import IconTrashLines from "../icons/icon-trash-lines";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import axios from "../../backendService";
 import { useEffect, useState } from "react";
-import { DataTable } from "mantine-datatable";
-import { MantineProvider } from "@mantine/core";
-// import DeleteModal from './components/deleteModal';
+//@ts-ignore
+import axios from "../../backendService";
 
 type User = {
   _id: string;
@@ -20,115 +14,109 @@ type User = {
 
 type Props = {};
 
-const UserMaster = (props: Props) => {
+const AdminDashboard = (props: Props) => {
   const [users, setUsers] = useState<User[]>([]);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const PAGE_SIZES = [10, 20, 30, 50, 100];
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
-  const [userId, setUserId] = useState("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const fetchData = async () => {
     const response = await axios.get("/api/user");
-    setUsers(response.data);
+    const filteredUsers = response.data.filter((user: any)=> user.email !== "admin@gmail.com")
+    setUsers(filteredUsers);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const handleDeleteModal = (id: string) => {
-    setUserId(id);
+  const openDeleteModal = (user: User) => {
+    setSelectedUser(user);
     setDeleteModal(true);
   };
 
+  const closeDeleteModal = () => {
+    setSelectedUser(null);
+    setDeleteModal(false);
+  };
+
+  const handleDelete = async () => {
+    if (selectedUser) {
+      await axios.delete(`/api/user/${selectedUser._id}`);
+      fetchData();
+      closeDeleteModal();
+    }
+  };
+
   return (
-    <MantineProvider>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-1">
-        <div className="panel h-full w-full">
-          <div className="mb-5 flex items-center justify-between">
-            <h5 className="text-lg font-semibold dark:text-white-light">
-              Users
-            </h5>
-          </div>
-          <div className="table-responsive">
-            <DataTable
-              noRecordsText="No users found"
-              highlightOnHover
-              className="table-hover whitespace-nowrap"
-              records={users}
-              columns={[
-                {
-                  accessor: "",
-                  title: (
-                    <div className="flex items-center justify-end">
-                      <div className="ml-auto">Sr. No.</div>
-                    </div>
-                  ),
-                  width: "80px",
-                  render: (user: User, index: number) => (
-                    <span
-                      key={index}
-                      className="flex w-full items-center justify-center"
-                    >
-                      {index + 1}
-                    </span>
-                  ),
-                },
-                { accessor: "username", title: "Username" },
-                { accessor: "email", title: "Email" },
-                { accessor: "phone", title: "Phone" },
-                {
-                  accessor: "createdAt",
-                  title: "Logged In Date",
-                  render: (user: User) => (
-                    <div>{new Date(user.createdAt).toLocaleString()}</div>
-                  ),
-                },
-                {
-                  accessor: "blocked",
-                  title: "Blocked",
-                  render: (user: User) => (
-                    <div>{user.blocked ? "Yes" : "No"}</div>
-                  ),
-                },
-                {
-                  accessor: "action",
-                  title: (
-                    <div className="flex items-center justify-end">
-                      <div className="ml-auto">Action</div>
-                    </div>
-                  ),
-                  render: (user: User) => (
-                    <div className="flex flex-wrap items-center justify-end gap-6">
-                      <div className="cursor-pointer">
-                        <Tippy content="Delete user" placement="top">
-                          <span onClick={() => handleDeleteModal(user._id)}>
-                            <IconTrashLines className="text-red-600" />
-                          </span>
-                        </Tippy>
-                      </div>
-                    </div>
-                  ),
-                },
-              ]}
-              totalRecords={users.length}
-              recordsPerPage={pageSize}
-              page={page}
-              onPageChange={setPage}
-              recordsPerPageOptions={PAGE_SIZES}
-              onRecordsPerPageChange={setPageSize}
-              minHeight={200}
-              paginationText={({ from, to, totalRecords }) =>
-                `Showing ${from} to ${to} of ${totalRecords} entries`
-              }
-            />
+    <div className="container mx-auto px-28 py-8">
+      <h2 className="mb-6 text-3xl font-semibold text-purple-600">User Dashboard</h2>
+      <div className="overflow-x-auto rounded-lg">
+        <table className="w-full table-auto border-collapse rounded-lg">
+          <thead>
+            <tr className="bg-purple-600 text-white">
+              <th className="px-4 py-2">Sr. No.</th>
+              <th className="px-4 py-2">Username</th>
+              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Phone</th>
+              <th className="px-4 py-2">Logged In Date</th>
+              {/* <th className="px-4 py-2">Blocked</th> */}
+              <th className="px-4 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr
+                key={user._id}
+                className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
+              >
+                <td className="border px-4 py-2 text-center">{index + 1}</td>
+                <td className="border px-4 py-2 text-center">{user.username}</td>
+                <td className="border px-4 py-2 text-center">{user.email}</td>
+                <td className="border px-4 py-2 text-center">{user.phone}</td>
+                <td className="border px-4 py-2 text-center">
+                  {new Date(user.createdAt).toLocaleString()}
+                </td>
+                {/* <td className="border px-4 py-2 text-center">
+                  {user.blocked ? "Yes" : "No"}
+                </td> */}
+                <td className="border px-4 py-2  text-center">
+                  <button
+                    className="rounded-3xl bg-red-600 px-4 py-2 text-white"
+                    onClick={() => openDeleteModal(user)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {deleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded bg-white p-8">
+            <h3 className="mb-4 text-xl font-semibold">Confirm Delete</h3>
+            <p>Are you sure you want to delete the user?</p>
+            <div className="mt-6 flex justify-end">
+              <button
+                className="mr-2 rounded bg-gray-300 px-4 py-2 text-gray-700"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="rounded bg-red-600 px-4 py-2 text-white"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-        {/* <DeleteModal deleteModal={deleteModal} setDeleteModal={setDeleteModal} userId={userId} fetchData={fetchData} /> */}
-      </div>
-    </MantineProvider>
+      )}
+    </div>
   );
 };
 
-export default UserMaster;
+export default AdminDashboard;
