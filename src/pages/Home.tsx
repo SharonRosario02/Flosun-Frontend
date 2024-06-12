@@ -26,10 +26,10 @@ const Home: React.FC = () => {
   return (
     <HomeContainer>
       <Hero />
-      <SectionHeading>Best-Selling Houseplants</SectionHeading>
+      <SectionHeading>Best-Selling Bouquets </SectionHeading>
       <ItemCarousel />
       <WhyUsContainer>
-        <WhyUsHeading>Why GetPlants?</WhyUsHeading>
+        <WhyUsHeading>Why Choose Our Bouquets?</WhyUsHeading>
         <ShopIntro>{shopIntroArray}</ShopIntro>
       </WhyUsContainer>
       <BeginnerSection />

@@ -111,6 +111,7 @@ const App: React.FC = () => (
             />
           </Route>
           {/* Routes without Layout */}
+          
           <Route path={RouteNames.SIGNUP} element={<Signup />} />
           <Route path={RouteNames.LOGIN} element={<LoginPage />} />
           <Route path={RouteNames.RESET_PASSWORD} element={<ResetPassword />} />

@@ -107,24 +107,73 @@ const QuantityValue = styled.div`
   font-size: 1rem;
 `;
 
+// const AddToCardButton = styled.button`
+//   flex: 3;
+//   transition: all 0.2s;
+//   border: none;
+//   padding: 0.2em 0;
+//   background-color: ${({ theme }) => theme.colors.accentDark};
+//   font-family: inherit;
+//   font-size: 1rem;
+//   color: ${({ theme }) => theme.colors.white};
+//   font-weight: 500;
+
+//   &:hover {
+//     background-color: ${({ theme }) => theme.colors.accentGreen};
+//     cursor: pointer;
+//   }
+
+//   &:disabled {
+//     background-color: ${({ theme }) => theme.colors.accentGrey};
+//     cursor: default;
+//   }
+// `;
+
 const AddToCardButton = styled.button`
   flex: 3;
   transition: all 0.2s;
   border: none;
   padding: 0.2em 0;
-  background-color: ${({ theme }) => theme.colors.accentDark};
+  background-color: #9b59b6;
   font-family: inherit;
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.white};
+  color: #ffffff;
   font-weight: 500;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: all 0.5s;
+    transform: skewX(-20deg);
+  }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.accentGreen};
+    background-color: #8e44ad;
     cursor: pointer;
+
+    &:before {
+      left: 100%;
+    }
   }
 
   &:disabled {
-    background-color: ${({ theme }) => theme.colors.accentGrey};
+    background-color: #bdc3c7;
     cursor: default;
+
+    &:before {
+      display: none;
+    }
   }
 `;

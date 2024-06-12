@@ -33,7 +33,7 @@ const Shop: React.FC = () => {
 
   return (
     <ShopContainer>
-      <ButtonWrapper>
+      {/* <ButtonWrapper>
         {forBeginnersFilter || petSafeFilter ? (
           <StyledLink to=".">All</StyledLink>
         ) : (
@@ -55,7 +55,7 @@ const Shop: React.FC = () => {
         ) : (
           <StyledLink to={RouteNames.PET_SAFE_QUERY}>Pet-Friendly</StyledLink>
         )}
-      </ButtonWrapper>
+      </ButtonWrapper> */}
       <ItemWrapper>{displayItems}</ItemWrapper>
     </ShopContainer>
   );
@@ -68,7 +68,7 @@ const ShopContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 2em auto 4em auto;
-  max-width: ${({ theme }) => theme.sizes.containerL};
+  max-width: 1200px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -83,27 +83,27 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  border: 1px solid black;
+  border: 1px solid #9b59b6;
   padding: 0.2em 0.9em;
   cursor: pointer;
   font-family: inherit;
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.grey};
+  color: #9b59b6;
   font-weight: 300;
   text-decoration: none;
   text-align: center;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.secondaryGreen};
-    background-color: ${({ theme }) => theme.colors.secondaryGreen};
-    color: ${({ theme }) => theme.colors.white};
+    border-color: #8e44ad;
+    background-color: #8e44ad;
+    color: #ffffff;
   }
 `;
 
 const SelectedLink = styled(StyledLink)`
-  border: 1px solid ${({ theme }) => theme.colors.secondaryGreen};
-  background-color: ${({ theme }) => theme.colors.secondaryGreen};
-  color: ${({ theme }) => theme.colors.white};
+  border: 1px solid #8e44ad;
+  background-color: #8e44ad;
+  color: #ffffff;
 `;
 
 const Wrapper = styled.div`

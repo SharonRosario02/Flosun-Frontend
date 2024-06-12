@@ -58,7 +58,7 @@ const StyledParagraph = styled.p`
 
 const StyledButton = styled.button`
   border: none;
-  margin-bottom: 1em;
+  margin-top: 1em;
   padding: 1.125rem 3rem;
   width: fit-content;
   background-color: #c038a2; // Dark purple/pink color

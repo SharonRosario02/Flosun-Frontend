@@ -22,7 +22,7 @@ export const ResetPasswordPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("/api/user//reset-password/generate-otp", { email });
+      await axios.post("/api/user/reset-password/generate-otp", { email });
       toast.success("OTP sent to your email", { position: "bottom-left" });
       setOtpSent(true);
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const ResetPasswordPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("/api/user//reset-password/verify-otp", { email, otp });
+      await axios.post("/api/user/reset-password/verify-otp", { email, otp });
       toast.success("OTP verified successfully", { position: "bottom-left" });
       setOtpVerified(true);
     } catch (error: any) {

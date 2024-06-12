@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img4 from "../../img/beginner-plants.webp";
+import hero_image2 from "../../../public/Hero_images/hero_image2.webp"
 import Button from "./Button";
 import { RouteNames } from "../../types/RouteNames";
 import { devices } from "../../styles/theme";
@@ -8,22 +9,29 @@ import { SectionHeading } from "../../pages/Home";
 
 const BeginnerSection: React.FC = () => (
   <IntroContainer>
-    <StyledImage src={Img4} alt="Almost unkillable houseplants" />
-    <IntroWrapper>
-      <SectionHeading>(Almost) unkillable houseplants</SectionHeading>
-      <StyledParagraph>
-        We know what it’s like to be guilty of plant murder, we've pulled
-        together a collection of plants who are low maintenance enough to
-        forgive you for the odd missed watering.
-      </StyledParagraph>
-      <Link
-        to={`./${RouteNames.SHOP + "/" + RouteNames.FOR_BEGINNERS_QUERY}`}
-        aria-label="Shop for beginner plants"
-      >
-        <Button>Shop the collection</Button>
-      </Link>
-    </IntroWrapper>
-  </IntroContainer>
+  <StyledImage src={hero_image2} alt="Beautiful flower bouquets" />
+  <IntroWrapper>
+    <SectionHeading>Exquisite Flower Bouquets</SectionHeading>
+    <StyledParagraph>
+      Discover our stunning collection of flower bouquets, perfect for any
+      occasion. Handcrafted with love and care, our bouquets are designed to
+      bring joy and beauty to your life.
+    </StyledParagraph>
+    {/* <Link
+      to={`./${RouteNames.SHOP + "/" + RouteNames.FLOWER_BOUQUETS_QUERY}`}
+      aria-label="Shop for flower bouquets"
+    >
+      <Button>Shop the collection</Button>
+    </Link> */}\
+
+<Link
+  to="/plant-shop/shop"
+  aria-label="Shop for pet-safe flower bouquets"
+>
+  <Button>Shop the collection</Button>
+</Link>
+  </IntroWrapper>
+</IntroContainer>
 );
 
 export default BeginnerSection;

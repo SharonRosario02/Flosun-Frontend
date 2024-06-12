@@ -8,6 +8,22 @@ const Nav: React.FC = () => {
   const navigate = useNavigate();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const { email } = JSON.parse(user);
+      const adminEmail = "admin@gmail.com";
+      const isAdminUser = email === adminEmail;
+      setIsAdmin(isAdminUser);
+  
+      if (isAdminUser) {
+        navigate(`${RouteNames.HOME}${RouteNames.ADMIN_DASHBOARD}`, { replace: true });
+      }
+    }
+  }, []);
+
 
   const handleLogout = () => {
     // Remove user and token from local storage
@@ -15,8 +31,7 @@ const Nav: React.FC = () => {
     localStorage.removeItem("token");
     // Navigate to the relative path with replace option
     navigate('/plant-shop/login', { replace: true });
-};
-
+  };
 
   const handleLogoutClick = () => {
     setShowLogoutDialog(true);
@@ -46,18 +61,23 @@ const Nav: React.FC = () => {
 
   return (
     <StyledNav>
-      {/* User pages */}
-      <StyledNavLink to={RouteNames.HOME}>Home</StyledNavLink>
-      <StyledNavLink to={RouteNames.HOME + RouteNames.SHOP}>Shop</StyledNavLink>
-      <StyledNavLink to='feedback'>Feedback</StyledNavLink>
-      <StyledNavLink to='about-us'>About us</StyledNavLink>
-      <StyledNavLink to='reminder'>Reminder</StyledNavLink>
-      {/* <StyledNavLink to='signup'>Login</StyledNavLink> */}
-
-      {/* Admin pages */}
-      {/* <StyledNavLink to='admin-dashboard'>Dashboard</StyledNavLink>
-      <StyledNavLink to='admin-feedbacks'>Feedbacks</StyledNavLink>
-      <StyledNavLink to='admin-products'>Products</StyledNavLink> */}
+      {isAdmin ? (
+        <>
+          {/* Admin pages */}
+          <StyledNavLink to='admin-dashboard'>Dashboard</StyledNavLink>
+          <StyledNavLink to='admin-products'>Products</StyledNavLink>
+          <StyledNavLink to='admin-feedbacks'>Feedbacks</StyledNavLink>
+        </>
+      ) : (
+        <>
+          {/* User pages */}
+          <StyledNavLink to={RouteNames.HOME}>Home</StyledNavLink>
+          <StyledNavLink to={RouteNames.HOME + RouteNames.SHOP}>Shop</StyledNavLink>
+          <StyledNavLink to='feedback'>Feedback</StyledNavLink>
+          <StyledNavLink to='about-us'>About us</StyledNavLink>
+          <StyledNavLink to='reminder'>Reminder</StyledNavLink>
+        </>
+      )}
 
       {/* Logout button */}
       <StyledNavLink as="button" onClick={handleLogoutClick}>
@@ -87,6 +107,7 @@ const Nav: React.FC = () => {
 };
 
 export default Nav;
+
 
 const StyledNav = styled.nav`
   display: flex;

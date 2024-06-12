@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@headlessui/react": "^2.0.4",
     "@mdi/js": "^7.1.96",
     "@mdi/react": "^1.6.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@tabler/icons-react": "^3.2.0",
     "@tippyjs/react": "^4.2.6",
     "axios": "^1.6.8",
+    "browser-image-compression": "^2.0.2",
     "i": "^0.3.7",
     "mantine-datatable": "^7.8.1",
     "npm": "^10.5.2",
@@ -23,6 +23,7 @@
     "react": "^18.2.0",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.1.0",
     "react-intersection-observer": "^9.10.2",
@@ -35,6 +36,7 @@
     "typescript-plugin-styled-components": "^2.0.0"
   },
   "devDependencies": {
+    "@headlessui/react": "^2.0.4",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.26",

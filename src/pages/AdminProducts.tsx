@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 //@ts-ignore
 import axios from "../../backendService";
-import AddProductModal from "./AdminProductsAddModel";
+import AddModel from "../components/adminProducts/addModel";
+import EditModel from "../components/adminProducts/editModel";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import DeleteModel from "../components/adminProducts/deleteModel";
 
 type Product = {
   _id: string;
@@ -18,6 +21,10 @@ type Props = {};
 const AdminProducts = (props: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
   const fetchData = async () => {
     const response = await axios.get("/api/products");
@@ -42,10 +49,46 @@ const AdminProducts = (props: Props) => {
     closeAddModal();
   };
 
+  const openEditModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setSelectedProduct(null);
+    setIsEditModalOpen(false);
+  };
+
+  const handleEditProduct = async (updatedProduct: Product) => {
+    await axios.put(`/api/products/₹{updatedProduct._id}`, updatedProduct);
+    fetchData();
+    closeEditModal();
+  };
+
+  const openDeleteModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setSelectedProductId(null);
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDeleteProduct = async () => {
+    if (selectedProductId) {
+      await axios.delete(`/api/products/${selectedProductId}`);
+      fetchData();
+      closeDeleteModal();
+    }
+  };
+
   return (
     <div className="container mx-auto px-28 py-8">
-       <div className="flex items-center justify-between">
-        <h2 className="mb-6 text-3xl font-semibold text-purple-600">Products</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="mb-6 text-3xl font-semibold text-purple-600">
+          Products
+        </h2>
         <button
           className="rounded-xl bg-purple-600 px-4 py-2 text-white"
           onClick={openAddModal}
@@ -58,11 +101,11 @@ const AdminProducts = (props: Props) => {
           <thead>
             <tr className="bg-purple-600 text-white">
               <th className="px-4 py-2">Sr. No.</th>
-              <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Image</th>
+              <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Price</th>
               <th className="px-4 py-2">Description</th>
-              {/* <th className="px-4 py-2">Flowers</th> */}
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -72,26 +115,56 @@ const AdminProducts = (props: Props) => {
                 className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
               >
                 <td className="border px-4 py-2 text-center">{index + 1}</td>
-                <td className="border px-4 py-2">{product.name}</td>
                 <td className="border px-4 py-2">
                   <img
-                    src={`data:image/jpeg;base64,${product.image}`}
+                    src={product.image}
                     alt={product.name}
                     className="mx-auto h-20 w-20 object-cover"
                   />
                 </td>
-                <td className="border px-4 py-2 text-center">${product.price.toFixed(2)}</td>
+                <td className="border px-4 py-2">{product.name}</td>
+                <td className="border px-4 py-2 text-center">
+                 ₹ {product.price.toFixed(2)}
+                </td>
                 <td className="border px-4 py-2">{product.description}</td>
-                {/* <td className="border px-4 py-2">{product.flowers}</td> */}
+                <td className="border px-4 py-2 text-center">
+                  <button
+                    className="mr-2 text-blue-500 hover:text-blue-700"
+                    onClick={() => openEditModal(product)}
+                  >
+                    <FaEdit size={25}/>
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700"
+                    onClick={() => openDeleteModal(product._id)}
+                    
+                  >
+                    <FaTrash size={25} />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <AddProductModal
+      <AddModel
         isOpen={isAddModalOpen}
         onClose={closeAddModal}
         onAddProduct={handleAddProduct}
+        fetchData={fetchData}
+      />
+      <EditModel
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        onEditProduct={handleEditProduct}
+        product={selectedProduct}
+        fetchData={fetchData}
+      />
+      <DeleteModel
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onDelete={handleDeleteProduct}
+        itemName={products.find((product) => product._id === selectedProductId)?.name || ""}
       />
     </div>
   );

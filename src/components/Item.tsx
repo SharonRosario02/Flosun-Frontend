@@ -4,8 +4,6 @@ import { Icon } from "@mdi/react";
 import { mdiHeartOutline, mdiHeart } from "@mdi/js";
 import { AppContext } from "../appContext";
 import AddToCartButton from "./cart/AddToCartButton";
-import styled from "styled-components";
-import { devices } from "../styles/theme";
 import { RouteNames } from "../types/RouteNames";
 
 interface plantDataProps {
@@ -29,100 +27,45 @@ const Item: React.FC<plantDataProps> = ({ plantData }) => {
     context?.toggleFavorite(plantData.id);
   };
 
+  console.log(plantData)
+
   return (
-    <ItemCard>
-      <HeartIconWrapper onClick={setFavorite}>
-        {plantData.isFavorite ? (
-          <StyledIcon path={mdiHeart} size={1} />
-        ) : (
-          <StyledIcon path={mdiHeartOutline} size={1} />
-        )}
-      </HeartIconWrapper>
-      <StyledLink
+    <div className="border-[0.5px] border-[#d885c6] flex flex-col overflow-hidden rounded-md  w-full min-w-[240px] max-w-[250px] sm:w-4/5 mx-10">
+      <div className="z-10 relative">
+        <div
+          onClick={setFavorite}
+          className="absolute left-3 top-3 cursor-pointer text-red-500"
+        >
+          {plantData.isFavorite ? (
+            <Icon path={mdiHeart} size={1.4} />
+          ) : (
+            <Icon path={mdiHeartOutline} size={1.4} />
+          )}
+        </div>
+      </div>
+      <Link
         to={`${RouteNames.HOME + RouteNames.SHOP}/${plantData.id}`}
         aria-label="Plant details"
       >
-        <StyledImage src={plantData.img} alt="Plant image" />
-      </StyledLink>
-      <ItemInfo>
-        <StyledLink
+        <img
+          src={plantData.image}
+          alt="Plant image"
+          className="w-[400px] h-[270px] object-cover transition duration-400 ease-in-out transform hover:scale-110 cursor-pointer border-b border-[#c038a2]"
+        />
+      </Link>
+      <div className="z-10 flex flex-col items-center pt-2 bg-white text-gray-800">
+        <Link
           to={`${RouteNames.HOME + RouteNames.SHOP}/${plantData.id}`}
           aria-label="Plant details"
+          className="mb-1 cursor-pointer text-lg text-[#c038a2] font-semibold no-underline"
         >
-          <ItemName>{plantData.name}</ItemName>
-        </StyledLink>
-        <ItemPrice>€{plantData.price}.00</ItemPrice>
+          {plantData.name}
+        </Link>
+        <div className="text-lg">€{plantData.price}.00</div>
         <AddToCartButton id={plantData.id} />
-      </ItemInfo>
-    </ItemCard>
+      </div>
+    </div>
   );
 };
 
 export default Item;
-
-const ItemCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 0.0625rem solid ${({ theme }) => theme.colors.borderColor};
-  margin: 0 auto;
-  width: 100%;
-  min-width: 160px;
-  max-width: 250px;
-
-  @media ${devices.mobileS} {
-    width: 80%;
-  }
-`;
-
-const HeartIconWrapper = styled.div`
-  z-index: 2;
-  position: relative;
-`;
-
-const StyledIcon = styled(Icon)`
-  position: absolute;
-  left: 0.2em;
-  top: 0.2em;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.red};
-`;
-
-const ItemInfo = styled.div`
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 0.5em;
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.accentDark};
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
-
-const StyledImage = styled.img`
-  user-select: none;
-  width: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-
-  &:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-const ItemName = styled.div`
-  margin-bottom: 0.3em;
-  cursor: pointer;
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.accentGreen};
-  font-weight: 600;
-  text-decoration: none;
-`;
-
-const ItemPrice = styled.div`
-  font-size: 1rem;
-`;

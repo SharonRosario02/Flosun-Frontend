@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img5 from "../../img/pet-friendly-plants.webp";
+import petFree_image from "../../../public/Hero_images/petFree_image.jpg"
 import Button from "./Button";
 import { RouteNames } from "../../types/RouteNames";
 import { devices } from "../../styles/theme";
@@ -14,20 +15,20 @@ import { SectionHeading } from "../../pages/Home";
 
 const PetFriendlySection: React.FC = () => (
   <PetFriendlyIntroContainer>
-    <PetFriendlyStyledImage src={Img5} alt="Pet-safe houseplants" />
+    <PetFriendlyStyledImage src={petFree_image} alt="Pet-safe flower bouquets" />
     <PetFriendlyIntroWrapper>
-      <SectionHeading>Pet-safe houseplants</SectionHeading>
+      <SectionHeading>Pet-safe Flower Bouquets</SectionHeading>
       <StyledParagraph>
-        It is possible for pets and plants to coexist in the same home. Keep
-        your four-legged friends happy, healthy and out of harm’s way with cat
-        and dog-safe houseplants.
+        Enjoy beautiful flower bouquets without worrying about your pets. Our
+        collection of pet-safe bouquets ensures that your furry friends remain
+        happy and healthy.
       </StyledParagraph>
       <Link
-        to={`./${RouteNames.SHOP + "/" + RouteNames.PET_SAFE_QUERY}`}
-        aria-label="Shop for pet-safe plants"
-      >
-        <Button>Shop the collection</Button>
-      </Link>
+  to="/plant-shop/shop"
+  aria-label="Shop for pet-safe flower bouquets"
+>
+  <Button>Shop the collection</Button>
+</Link>
     </PetFriendlyIntroWrapper>
   </PetFriendlyIntroContainer>
 );
