@@ -488,8 +488,9 @@ const fetchAndProcessData = async (): Promise<Product[]> => {
     const response = await axios('/api/products/');
     const fetchedData: ApiProduct[] = await response.data;
     console.log(fetchedData, "fetched data//........................................")
-    const formattedData: Product[] = fetchedData.map((product) => ({
+    const formattedData: Product[] = fetchedData.map((product, index) => ({
       _id: product._id,
+      id: index + 1,
       name: product.name,
       price: product.price,
       img: product.img,

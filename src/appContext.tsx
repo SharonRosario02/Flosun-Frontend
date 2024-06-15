@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import data from "./data/plantData";
+import fetchAndProcessData from "./data/plantData";
 
-interface appContextProviderProps {
+interface AppContextProviderProps {
   children: React.ReactNode;
 }
 
@@ -36,10 +36,8 @@ interface AppContextType {
 
 const AppContext = React.createContext<AppContextType | null>(null);
 
-const AppContextProvider = ({ children }: appContextProviderProps) => {
-  const [allItems, setAllItems] = useState(
-    localStorage.getItem("items") ? JSON.parse(localStorage["items"]) : data
-  );
+const AppContextProvider = ({ children }: AppContextProviderProps) => {
+  const [allItems, setAllItems] = useState<AllItemsType[]>([]);
   const [cart, setCart] = useState<CartType[] | null>(
     localStorage.getItem("cart") ? JSON.parse(localStorage["cart"]) : null
   );
@@ -90,8 +88,12 @@ const AppContextProvider = ({ children }: appContextProviderProps) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(allItems));
-  }, [allItems]);
+    const fetchData = async () => {
+      const fetchedData = await fetchAndProcessData();
+      setAllItems(fetchedData);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
