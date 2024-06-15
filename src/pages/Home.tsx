@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   const shopIntroArray = homeData.map((obj, index) => (
     <Intro
       key={index}
-      image={obj.image}
+      image={obj.img}
       alt={obj.alt}
       title={obj.title}
       text={obj.text}

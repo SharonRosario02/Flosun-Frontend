@@ -27,7 +27,7 @@ const Item: React.FC<plantDataProps> = ({ plantData }) => {
     context?.toggleFavorite(plantData.id);
   };
 
-  console.log(plantData)
+  console.log(plantData, "plantdata...............")
 
   return (
     <div className="border-[0.5px] border-[#d885c6] flex flex-col overflow-hidden rounded-md  w-full min-w-[240px] max-w-[250px] sm:w-4/5 mx-10">
@@ -48,7 +48,7 @@ const Item: React.FC<plantDataProps> = ({ plantData }) => {
         aria-label="Plant details"
       >
         <img
-          src={plantData.image}
+          src={plantData.img}
           alt="Plant image"
           className="w-[400px] h-[270px] object-cover transition duration-400 ease-in-out transform hover:scale-110 cursor-pointer border-b border-[#c038a2]"
         />

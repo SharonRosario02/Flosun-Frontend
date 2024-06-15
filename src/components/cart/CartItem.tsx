@@ -12,45 +12,41 @@ interface CartProps {
 
 const CartItem: React.FC<CartProps> = ({ cartItem }) => {
   const context = useContext(AppContext);
-  const minusRef = useRef<HTMLButtonElement>(null);
+  const minusRef = useRef(null);
 
   const calculatePrice = () => {
     let total = 0;
-    const price = context?.allItems?.filter((obj) => obj.id === cartItem.id)[0]
-      .price;
+    const filteredItem = context?.allItems?.filter((obj) => obj.id === cartItem.id)[0];
+    const price = filteredItem?.price;
     if (price) {
       total = price * cartItem.quantity;
     }
     return `€${total}.00`;
   };
 
+  const filteredItem = context?.allItems?.filter((obj) => obj.id === cartItem.id)[0];
+
   return (
     <ItemContainer>
-      <IconWrapper onClick={() => context?.removeItem(cartItem.id)}>
-        <StyledIcon path={mdiTrashCanOutline} />
-      </IconWrapper>
-      <StyledImage
-        src={context?.allItems?.filter((obj) => obj.id === cartItem.id)[0].img}
-        alt="Plant image"
-      />
-      <ItemDetails>
-        <ItemName>
-          {context?.allItems?.filter((obj) => obj.id === cartItem.id)[0].name}
-        </ItemName>
-        <ItemHeading>{calculatePrice()}</ItemHeading>
-        <QuantityWrapper>
-          <QuantityButton
-            ref={minusRef}
-            onClick={() => context?.minus(cartItem.id, cartItem.quantity)}
-          >
-            −
-          </QuantityButton>
-          <QuantityValue>{cartItem.quantity}</QuantityValue>
-          <QuantityButton onClick={() => context?.plus(cartItem.id)}>
-            +
-          </QuantityButton>
-        </QuantityWrapper>
-      </ItemDetails>
+      {filteredItem && (
+        <>
+          <StyledImage src={filteredItem.img} alt="Plant image" />
+          <ItemDetails>
+            <ItemName>{filteredItem.name}</ItemName>
+            {calculatePrice()}
+            <QuantityWrapper>
+              <QuantityButton onClick={() => context?.minus(cartItem.id, cartItem.quantity)}>
+                −
+              </QuantityButton>
+              <QuantityValue>{cartItem.quantity}</QuantityValue>
+              <QuantityButton onClick={() => context?.plus(cartItem.id)}>+</QuantityButton>
+            </QuantityWrapper>
+          </ItemDetails>
+          <IconWrapper onClick={() => context?.removeItem(cartItem.id)}>
+            <StyledIcon path={mdiTrashCanOutline} size="1.2em" />
+          </IconWrapper>
+        </>
+      )}
     </ItemContainer>
   );
 };

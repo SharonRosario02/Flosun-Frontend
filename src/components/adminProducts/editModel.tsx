@@ -126,7 +126,7 @@ const EditModel = ({ isOpen, onClose, onEditProduct, product, fetchData }: Props
           price,
           description,
           inStock,
-          image,
+          img: image,
         };
 
         await axios.put(`/api/products/${product!._id}`, updatedProduct);

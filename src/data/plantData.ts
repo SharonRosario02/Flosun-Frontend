@@ -459,13 +459,13 @@
 
 // import Image0 from "../../../public/flowers/IMG-20240519-WA0000.jpg";
 // Import other image files as needed
-import axios from '../../backendService.js'
+import axios from '../../backendService.js';
 
 interface ApiProduct {
   _id: string;
   name: string;
   price: number;
-  image: string;
+  img: string;
   description: string;
   isFavorite: boolean;
   forBeginners: boolean;
@@ -476,7 +476,7 @@ interface Product {
   _id: string;
   name: string;
   price: number;
-  image: string;
+  img: string;
   description: string;
   isFavorite: boolean;
   forBeginners: boolean;
@@ -487,16 +487,21 @@ const fetchAndProcessData = async (): Promise<Product[]> => {
   try {
     const response = await axios('/api/products/');
     const fetchedData: ApiProduct[] = await response.data;
+    console.log(fetchedData, "fetched data//........................................")
     const formattedData: Product[] = fetchedData.map((product) => ({
       _id: product._id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      img: product.img,
       description: product.description,
       isFavorite: product.isFavorite,
       forBeginners: product.forBeginners,
       isPetSafe: product.isPetSafe,
     }));
+
+    // Store the formatted data in local storage
+    localStorage.setItem('items', JSON.stringify(formattedData));
+
     return formattedData;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -504,9 +509,4 @@ const fetchAndProcessData = async (): Promise<Product[]> => {
   }
 };
 
-const data = await fetchAndProcessData();
-localStorage.setItem('items', JSON.stringify(data));
-console.log(data);
-// Perform any additional operations with the fetched data
-
-export default data;
+export default fetchAndProcessData;

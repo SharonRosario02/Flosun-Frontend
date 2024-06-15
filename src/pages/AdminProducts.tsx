@@ -10,7 +10,7 @@ import DeleteModel from "../components/adminProducts/deleteModel";
 type Product = {
   _id: string;
   name: string;
-  image: string;
+  img: string;
   price: number;
   description: string;
   flowers: string;
@@ -83,6 +83,8 @@ const AdminProducts = (props: Props) => {
     }
   };
 
+  if(products) console.log(products)
+
   return (
     <div className="container mx-auto px-28 py-8">
       <div className="flex items-center justify-between">
@@ -117,7 +119,7 @@ const AdminProducts = (props: Props) => {
                 <td className="border px-4 py-2 text-center">{index + 1}</td>
                 <td className="border px-4 py-2">
                   <img
-                    src={product.image}
+                    src={product.img}
                     alt={product.name}
                     className="mx-auto h-20 w-20 object-cover"
                   />

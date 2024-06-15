@@ -134,7 +134,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
           price,
           description,
           inStock,
-          image,
+          img: image,
         };
 
         const response = await axios.post("/api/products", newProduct);
