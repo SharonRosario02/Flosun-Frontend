@@ -14,11 +14,13 @@ import Aboutus from "./pages/Aboutus";
 import Reminder from "./pages/Reminder";
 import Signup from "./pages/Signup";
 import AdminDashboard from "./pages/AdminDashboard";
+import OrdersPage from "./pages/OrdersPage";
 import AdminFeedbacks from "./pages/AdminFeedbacks";
 import AdminProducts from "./pages/AdminProducts";
 import LoginPage from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import AuthWrapper from "./components/(auth)/AuthWrapper";
+import AdminOrders from "./pages/AdminOrders";
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
@@ -77,6 +79,14 @@ const App: React.FC = () => (
               }
             />
             <Route
+              path={RouteNames.CHECKOUT}
+              element={
+                <AuthWrapper>
+                  <OrdersPage />
+                </AuthWrapper>
+              }
+            />
+            <Route
               path={RouteNames.REMINDER}
               element={
                 <AuthWrapper>
@@ -106,6 +116,14 @@ const App: React.FC = () => (
               element={
                 <AuthWrapper isAdminRoute>
                   <AdminProducts />
+                </AuthWrapper>
+              }
+            />
+            <Route
+              path={RouteNames.ADMIN_ORDERS}
+              element={
+                <AuthWrapper isAdminRoute>
+                  <AdminOrders />
                 </AuthWrapper>
               }
             />

@@ -1,6 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
 import axios from "../../../backendService";
-import imageCompression from "browser-image-compression";
 import toast from "react-hot-toast";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDropzone } from "react-dropzone";
@@ -60,30 +59,6 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
       handleImageUpload(acceptedFiles);
     },
   });
-
-  // const handleImageUpload = async (acceptedFiles: File[]) => {
-  //   const file = acceptedFiles[0];
-  //   if (file) {
-  //     try {
-  //       const options = {
-  //         maxWidthOrHeight: 800,
-  //         useWebWorker: true,
-  //         maxSizeMB: 1,
-  //       };
-  //       const compressedFile = await imageCompression(file, options);
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         const base64String = reader.result as string;
-  //         setImage(base64String);
-  //         setErrors({ ...errors, image: "" });
-  //       };
-  //       reader.readAsDataURL(compressedFile);
-  //     } catch (error) {
-  //       console.error("Error compressing the image: ", error);
-  //       toast.error("Failed to upload the image. Please try again.");
-  //     }
-  //   }
-  // };
 
   const handleImageUpload = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -152,143 +127,34 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
   };
 
   return (
-    // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    //   <div className="w-96 rounded bg-white p-8 shadow-lg">
-    //     <h2 className="mb-6 text-2xl font-semibold text-center">
-    //       Add New Product
-    //     </h2>
-    //     <div className="mb-4">
-    //       <label htmlFor="name" className="mb-1 block font-semibold">
-    //         Name:
-    //       </label>
-    //       <input
-    //         type="text"
-    //         id="name"
-    //         value={name}
-    //         onChange={(e) => setName(e.target.value)}
-    //         className={`w-full rounded border px-2 py-1 ${
-    //           errors.name ? "border-red-500" : "border-gray-300"
-    //         }`}
-    //       />
-    //       {errors.name && (
-    //         <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-    //       )}
-    //     </div>
-    //     <div className="mb-4">
-    //       <label htmlFor="price" className="mb-1 block font-semibold">
-    //         Price:
-    //       </label>
-    //       <input
-    //         type="number"
-    //         id="price"
-    //         value={price}
-    //         onChange={(e) => setPrice(Number(e.target.value))}
-    //         className={`w-full rounded border px-2 py-1 ${
-    //           errors.price ? "border-red-500" : "border-gray-300"
-    //         }`}
-    //       />
-    //       {errors.price && (
-    //         <p className="mt-1 text-sm text-red-500">{errors.price}</p>
-    //       )}
-    //     </div>
-    //     <div className="mb-4">
-    //       <label htmlFor="description" className="mb-1 block font-semibold">
-    //         Description:
-    //       </label>
-    //       <textarea
-    //         id="description"
-    //         value={description}
-    //         onChange={(e) => setDescription(e.target.value)}
-    //         className={`w-full rounded border px-2 py-1 ${
-    //           errors.description ? "border-red-500" : "border-gray-300"
-    //         }`}
-    //       ></textarea>
-    //       {errors.description && (
-    //         <p className="mt-1 text-sm text-red-500">{errors.description}</p>
-    //       )}
-    //     </div>
-    //     <div className="mb-4 flex items-center">
-    //       <input
-    //         type="checkbox"
-    //         id="inStock"
-    //         checked={inStock}
-    //         onChange={(e) => setInStock(e.target.checked)}
-    //         className="mr-2"
-    //       />
-    //       <label htmlFor="inStock" className="font-semibold">
-    //         In Stock
-    //       </label>
-    //     </div>
-    //     <div className="mb-6">
-    //       <label
-    //         htmlFor="image"
-    //         className={`mb-1 block cursor-pointer rounded border border-dashed p-4 text-center ${
-    //           errors.image ? "border-red-500" : "border-gray-300"
-    //         }`}
-    //       >
-    //         {image ? (
-    //           <img
-    //             src={image}
-    //             alt="Product"
-    //             className="mx-auto h-40 w-40 object-cover"
-    //           />
-    //         ) : (
-    //           <span>Click to select an image</span>
-    //         )}
-    //         <input
-    //           type="file"
-    //           id="image"
-    //           accept="image/*"
-    //           onChange={handleImageUpload}
-    //           className="hidden"
-    //         />
-    //       </label>
-    //       {errors.image && (
-    //         <p className="mt-1 text-sm text-red-500">{errors.image}</p>
-    //       )}
-    //     </div>
-    //     <div className="flex justify-end">
-    //       <button
-    //         className="mr-2 rounded bg-gray-200 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300"
-    //         onClick={onClose}
-    //       >
-    //         Cancel
-    //       </button>
-    //       <button
-    //         className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-    //         onClick={handleSubmit}
-    //       >
-    //         Add Product
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
-
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-50 overflow-y-auto"
-        onClose={onClose}
-      >
-        <div className="min-h-screen px-4 text-center">
-          {/* <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" /> */}
+    <Dialog
+      as="div"
+      className="fixed inset-0 z-50 overflow-hidden"
+      onClose={onClose}
+    >
+      <div className="min-h-screen px-4 text-center">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm"
+          onClick={onClose}
+        ></div>
 
-          <span
-            className="inline-block h-screen align-middle"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
+        <span
+          className="inline-block h-screen align-middle"
+          aria-hidden="true"
+        >
+          &#8203;
+        </span>
 
-          <div className="my-8 inline-block w-full max-w-3xl transform rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
+          <div className="my-6 inline-block w-full max-w-md transform rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
             <Dialog.Title
               as="h3"
-              className="mb-4 text-2xl font-semibold leading-6 text-gray-900"
+              className="mb-2 text-xl font-semibold leading-6 text-gray-900"
             >
               Add New Product
             </Dialog.Title>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <label htmlFor="name" className="mb-1 block font-semibold">
                   Name
@@ -298,7 +164,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full rounded-md border px-4 py-2 focus:outline-none ${
+                  className={`w-full rounded-md border px-3 py-1.5 focus:outline-none ${
                     errors.name ? "border-red-500" : "border-gray-300"
                   }`}
                 />
@@ -320,7 +186,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                     id="price"
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
-                    className={`w-full rounded-md border pl-8 pr-4 py-2 focus:outline-none ${
+                    className={`w-full rounded-md border pl-8 pr-3 py-1.5 focus:outline-none ${
                       errors.price ? "border-red-500" : "border-gray-300"
                     }`}
                   />
@@ -331,10 +197,10 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
               </div>
 
               <div>
-                <label htmlFor="inStock" className="mb-1 block font-semibold">
+                <label htmlFor="inStock" className="block font-semibold">
                   Availability
                 </label>
-                <div className="flex items-center mb-4 mt-3 ">
+                <div className="flex items-center mb-2 mt-2">
                   <div className="relative inline-block w-10 mr-2 align-middle select-none">
                     <input
                       type="checkbox"
@@ -365,7 +231,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className={`w-full rounded-md border px-4 py-2 focus:outline-none ${
+                  className={`w-full rounded-md border px-3 py-1.5 focus:outline-none ${
                     errors.description ? "border-red-500" : "border-gray-300"
                   }`}
                   rows={2}
@@ -381,7 +247,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                 <label className="mb-1 block font-semibold">Image</label>
                 <div
                   {...getRootProps()}
-                  className={`flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-4 ${
+                  className={`flex h-28 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-4 ${
                     isDragActive
                       ? "border-blue-500"
                       : errors.image
@@ -395,11 +261,11 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                       <img
                         src={image}
                         alt="Product"
-                        className="max-h-28 object-contain"
+                        className="max-h-20 object-contain"
                       />
                       <button
                         type="button"
-                        className="absolute top-0 right-0 mt-2 mr-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                        className="absolute top-0 right-0 mt-1 mr-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                         onClick={() => setImage("")}
                       >
                         <svg
@@ -422,7 +288,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
                     <div className="text-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="mx-auto h-12 w-12 text-gray-400"
+                        className="mx-auto h-10 w-10 text-gray-400"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -448,17 +314,17 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-end space-x-4">
+            <div className="mt-6 flex justify-end space-x-4">
               <button
                 type="button"
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+                className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
                 onClick={onClose}
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className={`rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none ${
+                className={`rounded-md border border-transparent bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none ${
                   Object.values(errors).some((error) => error !== "")
                     ? "opacity-50 cursor-not-allowed"
                     : ""
@@ -470,7 +336,7 @@ const addModel = ({ isOpen, onClose, onAddProduct, fetchData }: Props) => {
               </button>
             </div>
           </div>
-        </div>
+          </div>
       </Dialog>
     </Transition>
   );

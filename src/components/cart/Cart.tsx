@@ -5,15 +5,30 @@ import { mdiWindowClose } from "@mdi/js";
 import styled from "styled-components";
 import { devices } from "../../styles/theme";
 import CartItem from "./CartItem";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface OverlayProps {
   cartOpened: boolean;
   setCartOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface UserData {
+  _id: string;
+  username: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 const Cart: React.FC<OverlayProps> = ({ cartOpened, setCartOpened }) => {
   const context = useContext(AppContext);
   const cartRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cartOpened && cartRef.current) {
@@ -28,6 +43,40 @@ const Cart: React.FC<OverlayProps> = ({ cartOpened, setCartOpened }) => {
       return prev + current.quantity * current.price;
     }, 0);
     return `Total: €${total}.00`;
+  };
+
+  const handlePlaceOrder = async () => {
+    const userDataString = localStorage.getItem("user");
+    const userData: UserData | null = userDataString
+      ? JSON.parse(userDataString)
+      : null;
+    const customerId = userData?._id || "";
+
+    const cartItems = context?.cart || [];
+    const products = cartItems.map(({ _id, quantity }) => ({
+      productId: _id,
+      quantity,
+    }));
+
+    const totalPrice = cartItems.reduce((total, item) => {
+      return total + item.quantity * item.price;
+    }, 0);
+
+    const orderData = {
+      customerId,
+      products,
+      totalPrice,
+      status: "pending"
+    };
+
+    try {
+      await axios.post("http://localhost:9000/api/product-orders", orderData);
+      localStorage.removeItem("cart");
+      context?.setCart([]);
+      navigate("/bouquet-shop/orders");
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
 
   return (
@@ -46,15 +95,15 @@ const Cart: React.FC<OverlayProps> = ({ cartOpened, setCartOpened }) => {
         {Number(context?.cart?.length) > 0 && (
           <CheckoutWrapper>
             <PriceHeading>{calculateTotalPrice()}</PriceHeading>
-            <StyledButton>Checkout</StyledButton>
+            <StyledButton onClick={handlePlaceOrder}>Order Now</StyledButton>
           </CheckoutWrapper>
         )}
       </CartContent>
-    </CartContainer>
-  );
+    </CartContainer>  );
 };
 
 export default Cart;
+
 
 const CartContainer = styled.div`
   z-index: 1003;
@@ -97,6 +146,7 @@ const CheckoutWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 2em;
+  margin-top: 2em;
   font-size: 1.5rem;
 `;
 

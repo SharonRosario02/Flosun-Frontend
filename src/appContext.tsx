@@ -18,6 +18,7 @@ interface AllItemsType {
 
 export interface CartType {
   id: number;
+  _id: string;
   quantity: number;
   price: number;
 }
@@ -28,10 +29,11 @@ interface AppContextType {
   toggleFavorite: (id: number) => void;
   cart: CartType[] | null;
   setCart: React.Dispatch<React.SetStateAction<CartType[] | null>>;
-  addToCart: (id: number, quantity: number, price: number) => void;
-  plus: (id: number) => void;
-  minus: (id: number, quantity: number) => void;
+  addToCart: (id: number, _id: string, quantity: number, price: number) => void;
+  plus: (id: number, _id: string) => void;
+  minus: (id: number, _id: string, quantity: number) => void;
   removeItem: (id: number) => void;
+  getTotalPrice: () => number;
 }
 
 const AppContext = React.createContext<AppContextType | null>(null);
@@ -39,40 +41,47 @@ const AppContext = React.createContext<AppContextType | null>(null);
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [allItems, setAllItems] = useState<AllItemsType[]>([]);
   const [cart, setCart] = useState<CartType[] | null>(
-    localStorage.getItem("cart") ? JSON.parse(localStorage["cart"]) : null
+    localStorage.getItem("cart")
+      ? JSON.parse(localStorage["cart"], (key, value) => {
+          if (key === "_id" && typeof value === "string") {
+            return value;
+          }
+          return value;
+        })
+      : null
   );
 
-  const addToCart = (id: number, quantity: number, price: number) => {
+  const addToCart = (id: number, _id: string, quantity: number, price: number) => {
     let copyCart: CartType[] = [];
     cart?.forEach((item) => copyCart.push(item));
-    copyCart.push({ id, quantity, price });
+    copyCart.push({ id, _id, quantity, price });
     setCart(copyCart);
   };
 
   const removeItem = (id: number) => {
-    const copyCart: { id: number; quantity: number; price: number }[] = [];
+    const copyCart: CartType[] = [];
     cart?.forEach((item) => copyCart.push(item));
     setCart(copyCart.filter((item) => item.id !== id));
   };
 
-  const minus = (id: number, quantity: number) => {
+  const minus = (id: number, _id: string, quantity: number) => {
     if (quantity > 1) {
-      const copyCart: { id: number; quantity: number; price: number }[] = [];
+      const copyCart: CartType[] = [];
       cart?.forEach((item) => copyCart.push(item));
       setCart(
         copyCart.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+          item.id === id ? { ...item, _id, quantity: item.quantity - 1 } : item
         )
       );
     }
   };
 
-  const plus = (id: number) => {
-    const copyCart: { id: number; quantity: number; price: number }[] = [];
+  const plus = (id: number, _id: string) => {
+    const copyCart: CartType[] = [];
     cart?.forEach((item) => copyCart.push(item));
     setCart(
       copyCart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === id ? { ...item, _id, quantity: item.quantity + 1 } : item
       )
     );
   };
@@ -85,6 +94,13 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       return item;
     });
     setAllItems(updatedArr);
+  };
+
+  const getTotalPrice = () => {
+    if (cart) {
+      return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    }
+    return 0;
   };
 
   useEffect(() => {
@@ -111,6 +127,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
         plus,
         minus,
         removeItem,
+        getTotalPrice,
       }}
     >
       {children}

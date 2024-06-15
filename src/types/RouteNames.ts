@@ -1,12 +1,13 @@
 export enum RouteNames {
   // base URL
-  HOME = "/plant-shop/",
+  HOME = "/bouquet-shop/",
   
   //User routes
   SHOP = "shop",
   FAVORITE = "favorite",
   FEEDBACK = "feedback",
   ABOUTUS = "about-us",
+  CHECKOUT = "orders",
   REMINDER = "reminder",
   FOR_BEGINNERS_QUERY = "?forBeginners=true",
   PET_SAFE_QUERY = "?isPetSafe=true",
@@ -15,9 +16,10 @@ export enum RouteNames {
   ADMIN_DASHBOARD = "admin-dashboard",
   ADMIN_FEEDBACKS = "admin-feedbacks",
   ADMIN_PRODUCTS = "admin-products",
+  ADMIN_ORDERS = "admin-orders",
   
   //auth routes
-  LOGIN = "/plant-shop/login",
-  SIGNUP = "/plant-shop/signup",
-  RESET_PASSWORD = "/plant-shop/reset-password",
+  LOGIN = "/bouquet-shop/login",
+  SIGNUP = "/bouquet-shop/signup",
+  RESET_PASSWORD = "/bouquet-shop/reset-password",
 }

@@ -35,11 +35,11 @@ const CartItem: React.FC<CartProps> = ({ cartItem }) => {
             <ItemName>{filteredItem.name}</ItemName>
             {calculatePrice()}
             <QuantityWrapper>
-              <QuantityButton onClick={() => context?.minus(cartItem.id, cartItem.quantity)}>
+              <QuantityButton onClick={() => context?.minus(cartItem.id, cartItem._id, cartItem.quantity)}>
                 −
               </QuantityButton>
               <QuantityValue>{cartItem.quantity}</QuantityValue>
-              <QuantityButton onClick={() => context?.plus(cartItem.id)}>+</QuantityButton>
+              <QuantityButton onClick={() => context?.plus(cartItem.id, cartItem._id,)}>+</QuantityButton>
             </QuantityWrapper>
           </ItemDetails>
           <IconWrapper onClick={() => context?.removeItem(cartItem.id)}>

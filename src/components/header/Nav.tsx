@@ -67,12 +67,14 @@ const Nav: React.FC = () => {
           <StyledNavLink to='admin-dashboard'>Dashboard</StyledNavLink>
           <StyledNavLink to='admin-products'>Products</StyledNavLink>
           <StyledNavLink to='admin-feedbacks'>Feedbacks</StyledNavLink>
+          <StyledNavLink to='admin-orders'>All Orders</StyledNavLink>
         </>
       ) : (
         <>
           {/* User pages */}
           <StyledNavLink to={RouteNames.HOME}>Home</StyledNavLink>
           <StyledNavLink to={RouteNames.HOME + RouteNames.SHOP}>Shop</StyledNavLink>
+          <StyledNavLink to='orders'>My Orders</StyledNavLink>
           <StyledNavLink to='feedback'>Feedback</StyledNavLink>
           <StyledNavLink to='about-us'>About us</StyledNavLink>
           <StyledNavLink to='reminder'>Reminder</StyledNavLink>

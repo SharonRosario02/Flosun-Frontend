@@ -4,9 +4,10 @@ import styled from "styled-components";
 
 interface AddToCartButtonProps {
   id: string | number | undefined;
+  _id: string;
 }
 
-const AddToCartButton: React.FC<AddToCartButtonProps> = ({ id }) => {
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({ id, _id }) => {
   const context = useContext(AppContext);
   const [quantity, setQuantity] = useState(1);
   const minusRef = useRef<HTMLButtonElement>(null);
@@ -15,25 +16,13 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ id }) => {
   const minus = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
-      let copyCart: { id: number; quantity: number; price: number }[] = [];
-      context?.cart?.forEach((item) => copyCart.push(item));
-      context?.setCart(
-        copyCart.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
-      );
+      context?.minus(Number(id), _id, quantity);
     }
   };
 
   const plus = () => {
     setQuantity((prev) => prev + 1);
-    let copyCart: { id: number; quantity: number; price: number }[] = [];
-    context?.cart?.forEach((item) => copyCart.push(item));
-    context?.setCart(
-      copyCart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+    context?.plus(Number(id), _id);
   };
 
   return (
@@ -59,6 +48,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ id }) => {
         onClick={() =>
           context?.addToCart(
             Number(id),
+            _id,
             Number(quantity),
             Number(context?.allItems?.filter((item) => item.id === id)[0].price)
           )
@@ -74,6 +64,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ id }) => {
 };
 
 export default AddToCartButton;
+
+// ... (styled components remain the same)
 
 const StyledContainer = styled.div`
   display: flex;

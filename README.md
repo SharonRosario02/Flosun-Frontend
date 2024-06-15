@@ -1,4 +1,4 @@
-# Plant Shop
+# Bouquet-shop
 
 A mock e-commerce site built to further improve my front-end development skills.
 

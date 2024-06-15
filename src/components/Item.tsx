@@ -8,6 +8,7 @@ import { RouteNames } from "../types/RouteNames";
 
 interface plantDataProps {
   plantData: {
+    _id: string;
     id: number;
     name: string;
     price: number;
@@ -62,7 +63,7 @@ const Item: React.FC<plantDataProps> = ({ plantData }) => {
           {plantData.name}
         </Link>
         <div className="text-lg">€{plantData.price}.00</div>
-        <AddToCartButton id={plantData.id} />
+        <AddToCartButton id={plantData.id} _id={plantData._id} />
       </div>
     </div>
   );
