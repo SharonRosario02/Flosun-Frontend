@@ -30,7 +30,7 @@ const Nav: React.FC = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     // Navigate to the relative path with replace option
-    navigate('/plant-shop/login', { replace: true });
+    navigate('/bouquet-shop/login', { replace: true });
   };
 
   const handleLogoutClick = () => {

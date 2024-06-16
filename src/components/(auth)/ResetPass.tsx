@@ -60,7 +60,7 @@ export const ResetPasswordPage = () => {
       setNewPassword("");
       setOtpSent(false);
       setOtpVerified(false);
-      navigate('/plant-shop/login');
+      navigate('/bouquet-shop/login');
     } catch (error: any) {
       console.error("Error occurred while resetting password:", error);
       toast.error("An error occurred while resetting password. Please try again.", { position: "bottom-left" });
@@ -83,7 +83,7 @@ export const ResetPasswordPage = () => {
 
 
   const handleGoBack = () => {
-    navigate('/plant-shop/login');
+    navigate('/bouquet-shop/login');
   };
 
   return (

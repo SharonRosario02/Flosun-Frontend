@@ -25,7 +25,7 @@ const BeginnerSection: React.FC = () => (
     </Link> */}\
 
 <Link
-  to="/plant-shop/shop"
+  to="/bouquet-shop/shop"
   aria-label="Shop for pet-safe flower bouquets"
 >
   <Button>Shop the collection</Button>

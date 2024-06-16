@@ -121,8 +121,8 @@ const Feedback = () => {
                     />
                   </svg>
                   <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                    <a href="http://localhost:5173/plant-shop/feedback">
-                      http://localhost:5173/plant-shop/feedback
+                    <a href="http://localhost:5173/bouquet-shop/feedback">
+                      http://localhost:5173/bouquet-shop/feedback
                     </a>
                   </div>
                 </div>

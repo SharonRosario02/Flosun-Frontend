@@ -54,7 +54,7 @@ const Aboutus = () => {
         <div className="flex flex-col justify-center items-center gap-4">
           <h1 className='md:text-5xl text-3xl tracking-wide font-semibold mb-5'>Discover Our Beautiful Bouquets</h1>
           <p>Explore our collection of exquisite bouquets and surprise your loved ones with the perfect gift. Click the button below to start shopping</p>
-          <Link to={"/plant-shop/shop"} className='max-w-[70%] w-[50%] lg:w-[30%] uppercase px-5 py-3 text-white transition-all border border-black bg-black hover:bg-transparent hover:text-black mt-14'>shop now</Link>
+          <Link to={"/bouquet-shop/shop"} className='max-w-[70%] w-[50%] lg:w-[30%] uppercase px-5 py-3 text-white transition-all border border-black bg-black hover:bg-transparent hover:text-black mt-14'>shop now</Link>
         </div>
       </div>
     </div>

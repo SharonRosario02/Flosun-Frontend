@@ -230,7 +230,7 @@ export const SignupPage = () => {
     </button>
           </div>
           <div className="text-center">
-            <Link to="/plant-shop/login" className="text-purple-500 hover:text-purple-600">
+            <Link to="/bouquet-shop/login" className="text-purple-500 hover:text-purple-600">
               Already have an account? Login
             </Link>
           </div>

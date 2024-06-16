@@ -59,7 +59,7 @@ export const LoginPage = () => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
       // Redirect to the home page
-      navigate('/plant-shop/');
+      navigate('/bouquet-shop/');
     } catch (error: any) {
       console.error("Error occurred while logging in:", error);
       if (error.response && error.response.status === 400) {
@@ -149,13 +149,13 @@ export const LoginPage = () => {
           </div>
           <div className="flex justify-between">
             <a
-              href="/plant-shop/reset-password"
+              href="/bouquet-shop/reset-password"
               className="text-purple-500 hover:text-purple-600"
             >
               Forgot Password?
             </a>
             <a
-              href="/plant-shop/signup"
+              href="/bouquet-shop/signup"
               className="text-purple-500 hover:text-purple-600"
             >
               Create New Account
