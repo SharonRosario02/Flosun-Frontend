@@ -76,8 +76,8 @@ const Nav: React.FC = () => {
           <StyledNavLink to={RouteNames.HOME + RouteNames.SHOP}>Shop</StyledNavLink>
           <StyledNavLink to='orders'>My Orders</StyledNavLink>
           <StyledNavLink to='feedback'>Feedback</StyledNavLink>
-          <StyledNavLink to='about-us'>About us</StyledNavLink>
           <StyledNavLink to='reminder'>Reminder</StyledNavLink>
+          <StyledNavLink to='about-us'>About us</StyledNavLink>
         </>
       )}
 
