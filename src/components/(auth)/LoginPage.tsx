@@ -15,6 +15,7 @@ export const LoginPage = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingUser, setCheckingUser] = useState(true);
 
   // used for session management in cookie setting
   const [cookies, setCookie] = useCookies(['token']);
@@ -29,12 +30,18 @@ export const LoginPage = () => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const checkUserExists = async () => {
+      const user = localStorage.getItem('user');
 
-    if (user) {
-      // User is already logged in, redirect to the home page
-      navigate('/bouquet-shop/');
-    }
+      if (user) {
+        // User is already logged in, redirect to the home page
+        navigate('/bouquet-shop/');
+      } else {
+        setCheckingUser(false);
+      }
+    };
+
+    checkUserExists();
   }, [navigate]);
 
   useEffect(() => {
@@ -92,6 +99,17 @@ export const LoginPage = () => {
       </div>
     );
   };
+
+  if (checkingUser) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center">
+          <FaSpinner className="animate-spin h-10 w-10 text-purple-500 mb-4" />
+          <p className="text-xl font-semibold text-purple-500">Checking user...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
