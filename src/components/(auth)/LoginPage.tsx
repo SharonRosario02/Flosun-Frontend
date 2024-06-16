@@ -29,6 +29,15 @@ export const LoginPage = () => {
   };
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      // User is already logged in, redirect to the home page
+      navigate('/bouquet-shop/');
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     // Clear form fields when the component mounts
     setFormData({
       email: "",

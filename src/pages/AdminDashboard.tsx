@@ -54,7 +54,7 @@ const AdminDashboard = (props: Props) => {
         <table className="w-full table-auto border-collapse rounded-lg">
           <thead>
             <tr className="bg-purple-600 text-white">
-              <th className="px-4 py-2">Sr. No.</th>
+              <th className="px-4 py-3">Sr. No.</th>
               <th className="px-4 py-2">Username</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Phone</th>
