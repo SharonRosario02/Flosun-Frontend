@@ -15,11 +15,14 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children, isAdminRoute = fals
       const user = localStorage.getItem("user");
       const isAdmin = user ? JSON.parse(user).email === "admin@gmail.com" : false;
 
+      console.log(user, 
+        "usrrrrrrrrrrr"
+      )
       if (!user) {
-        const loginPath = `/${RouteNames.LOGIN}`;
+        const loginPath = `${RouteNames.LOGIN}`;
         navigate(loginPath, { replace: true });
       } else if (isAdminRoute && !isAdmin) {
-        const homePath = `/${RouteNames.HOME}`;
+        const homePath = `/bouquet-shop/${RouteNames.HOME}`;
         navigate(homePath, { replace: true });
       }
     };
