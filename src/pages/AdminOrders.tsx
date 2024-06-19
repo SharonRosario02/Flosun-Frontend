@@ -17,7 +17,7 @@ interface OrderData {
     username: string;
     email: string;
     phone: string;
-    address: string; // Add the address field to the customer data
+    address: string;
     confirmPassword: string;
     __v: number;
   };
@@ -114,23 +114,31 @@ const AdminOrders: React.FC = () => {
                     )}
                     {productIndex === 0 && (
                       <td className="px-6 py-4 font-medium" rowSpan={order.products.length}>
-                        {order.customerId.username}
+                        {order.customerId?.username || "Deleted User"}
                       </td>
                     )}
                     {productIndex === 0 && (
                       <td className="px-6 py-4 w-[20%] font-medium" rowSpan={order.products.length}>
-                        {order.customerId.address}
+                        {order.customerId?.address || "N/A"}
                       </td>
                     )}
                     <td className="px-6 py-4 flex items-center">
-                      <img
-                        src={product.productId.img}
-                        alt={product.productId.name}
-                        className="w-12 h-12 object-cover rounded-full mr-4"
-                      />
-                      <span className="font-medium">{product.productId.name}</span>
+                      {product.productId ? (
+                        <>
+                          <img
+                            src={product.productId.img}
+                            alt={product.productId.name}
+                            className="w-12 h-12 object-cover rounded-full mr-4"
+                          />
+                          <span className="font-medium">{product.productId.name}</span>
+                        </>
+                      ) : (
+                        <span className="font-medium">Deleted Product</span>
+                      )}
                     </td>
-                    <td className="px-6 py-4 text-center">₹{product.productId.price}</td>
+                    <td className="px-6 py-4 text-center">
+                      {product.productId ? `₹${product.productId.price}` : "N/A"}
+                    </td>
                     <td className="px-6 py-4 text-center">{product.quantity}</td>
                     {productIndex === 0 && (
                       <td className="px-6 py-4 text-center relative" rowSpan={order.products.length}>
