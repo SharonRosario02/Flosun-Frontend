@@ -39,16 +39,12 @@ const OrdersPage: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("/api/product-orders");
-        const allOrders = response.data;
-
         const userDataString = localStorage.getItem("user");
         const userData = userDataString ? JSON.parse(userDataString) : null;
         const customerId = userData?._id || "";
 
-        const filteredOrders = allOrders.filter(
-          (order: OrderData) => order.customerId._id === customerId
-        );
+        const response = await axios.get(`/api/product-orders?customerId=${customerId}`);
+        const filteredOrders = response.data;
         setOrders(filteredOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -63,7 +59,7 @@ const OrdersPage: React.FC = () => {
 
         const response = await axios.get(`/api/user/${userId}`);
         const user = response.data;
-        setAddress(user.address || "");
+        setAddress(user?.address || "");
       } catch (error) {
         console.error("Error fetching user address:", error);
       }
@@ -133,7 +129,7 @@ const OrdersPage: React.FC = () => {
           <tbody>
             {orders.map((order, orderIndex) => (
               <React.Fragment key={order._id}>
-                {order.products.map((product, productIndex) => (
+                {order.products?.map((product, productIndex) => (
                   <tr
                     key={`${order._id}-${product._id}`}
                     className={`${
@@ -143,31 +139,33 @@ const OrdersPage: React.FC = () => {
                     {productIndex === 0 && (
                       <td
                         className="px-6 py-4 font-medium"
-                        rowSpan={order.products.length}
+                        rowSpan={order.products?.length || 0}
                       >
                         {order.orderId}
                       </td>
                     )}
                     <td className="px-6 py-4 flex items-center">
-                      <img
-                        src={product.productId.img}
-                        alt={product.productId.name}
-                        className="w-12 h-12 object-cover rounded-full mr-4"
-                      />
+                      {product.productId?.img && (
+                        <img
+                          src={product.productId.img}
+                          alt={product.productId?.name || ""}
+                          className="w-12 h-12 object-cover rounded-full mr-4"
+                        />
+                      )}
                       <span className="font-medium">
-                        {product.productId.name}
+                        {product.productId?.name || ""}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      ₹{product.productId.price}
+                      {product.productId?.price ? `₹${product.productId.price}` : "N/A"}
                     </td>
                     <td className="px-6 py-4 text-center">
-                      {product.quantity}
+                      {product.quantity || "N/A"}
                     </td>
                     {productIndex === 0 && (
                       <td
                         className="px-6 py-4 text-center"
-                        rowSpan={order.products.length}
+                        rowSpan={order.products?.length || 0}
                       >
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -180,16 +178,16 @@ const OrdersPage: React.FC = () => {
                               : "bg-red-200 text-red-800"
                           }`}
                         >
-                          {order.status}
+                          {order.status || "N/A"}
                         </span>
                       </td>
                     )}
                     {productIndex === 0 && (
                       <td
                         className="px-6 py-4 text-center font-medium"
-                        rowSpan={order.products.length}
+                        rowSpan={order.products?.length || 0}
                       >
-                        ₹{order.totalPrice}
+                        {order.totalPrice ? `₹${order.totalPrice}` : "N/A"}
                       </td>
                     )}
                   </tr>
