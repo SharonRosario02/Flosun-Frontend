@@ -43,7 +43,7 @@ const OrdersPage: React.FC = () => {
         const userData = userDataString ? JSON.parse(userDataString) : null;
         const customerId = userData?._id || "";
 
-        const response = await axios.get(`/api/product-orders?customerId=${customerId}`);
+        const response = await axios.get(`/api/product-orders/customer/${customerId}`);
         const filteredOrders = response.data;
         setOrders(filteredOrders);
       } catch (error) {
